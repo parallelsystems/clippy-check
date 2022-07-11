@@ -2,9 +2,13 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
-import {Cargo, Cross} from '@actions-rs/core';
+import { Cargo, Cross } from '@actions-rs/core';
 import * as input from './input';
-import {CheckRunner} from './check';
+import { CheckRunner } from './check';
+
+import { readFileSync } from 'fs';
+import * as path from 'path';
+
 
 export async function run(actionInput: input.Input): Promise<void> {
     const startedAt = new Date().toISOString();
@@ -51,6 +55,11 @@ export async function run(actionInput: input.Input): Promise<void> {
     args.push('--message-format=json');
 
     args = args.concat(actionInput.args);
+
+    // TODO: make file args mutually exclusive with input args
+    args = args.concat(parseArgsFile(actionInput.argsFilePath));
+
+    console.log(args);
 
     let runner = new CheckRunner();
     let clippyExitCode: number = 0;
@@ -101,6 +110,22 @@ async function main(): Promise<void> {
     } catch (error) {
         core.setFailed(error.message);
     }
+}
+
+// TODO: document this
+function parseArgsFile(filePath: string): string[] {
+    let parsedArgs: string[] = [];
+
+    const file = readFileSync(path.join(__dirname, filePath), 'utf-8');
+
+    for (var line of file.split(/\r?\n/)) {
+        if (!line.startsWith('#')) {
+            parsedArgs = parsedArgs.concat(line.split(' '));
+        }
+    }
+
+
+    return parsedArgs;
 }
 
 main();

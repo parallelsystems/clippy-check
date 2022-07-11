@@ -2,7 +2,7 @@
  * Parse action input into a some proper thing.
  */
 
-import {input} from '@actions-rs/core';
+import { input } from '@actions-rs/core';
 
 import stringArgv from 'string-argv';
 
@@ -13,6 +13,7 @@ export interface Input {
     args: string[],
     useCross: boolean,
     name: string,
+    argsFilePath: string,
 }
 
 export function get(): Input {
@@ -23,12 +24,23 @@ export function get(): Input {
     }
     const useCross = input.getInputBool('use-cross');
     const name = input.getInput('name');
+    const argsFilePath = input.getInput('args-file')
+
+    //// Uncomment for local testing
+    // const args: string[] = [];
+    // const toolchain = '';
+    // const useCross = false;
+    // const name = '';
+    // const argsFilePath = '../argsfile.sh';
+
 
     return {
-        token: input.getInput('token', {required: true}),
+        token: input.getInput('token', { required: true }),
+        // token: '',
         args: args,
         useCross: useCross,
         toolchain: toolchain || undefined,
-        name
+        name,
+        argsFilePath: argsFilePath
     }
 }
