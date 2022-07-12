@@ -51,6 +51,35 @@ jobs:
           args: --all-features
 ```
 
+### With `args-file`
+```yaml
+name: Clippy check
+jobs:
+  clippy_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          components: clippy
+          override: true
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args-file: "./clippy_args.sh"
+```
+
+Example file-based args (`clippy_args.sh`)
+```sh
+# here's a comment
+--locked --all-targets --all-features -- 
+-D missing_docs
+-D unused_extern_crates
+-D warnings
+# another one
+-D clippy::complexity
+```
+
 ## Inputs
 
 | Name        | Required | Description                                                                                                                            | Type   | Default |
