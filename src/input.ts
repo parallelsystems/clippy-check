@@ -26,17 +26,8 @@ export function get(): Input {
     const name = input.getInput('name');
     const argsFilePath = input.getInput('args-file')
 
-    //// Uncomment for local testing
-    // const args: string[] = [];
-    // const toolchain = '';
-    // const useCross = false;
-    // const name = '';
-    // const argsFilePath = '../argsfile.sh';
-
-
     return {
         token: input.getInput('token', { required: true }),
-        // token: '',
         args: args,
         useCross: useCross,
         toolchain: toolchain || undefined,
