@@ -7,7 +7,6 @@ import * as input from './input';
 import { CheckRunner } from './check';
 
 import { readFileSync } from 'fs';
-import * as path from 'path';
 
 
 export async function run(actionInput: input.Input): Promise<void> {
@@ -116,7 +115,7 @@ async function main(): Promise<void> {
 function parseArgsFile(filePath: string): string[] {
     let parsedArgs: string[] = [];
 
-    const file = readFileSync(path.join(__dirname, filePath), 'utf-8');
+    const file = readFileSync(filePath, 'utf-8');
 
     for (var line of file.split(/\r?\n/)) {
         if (!line.startsWith('#')) {
