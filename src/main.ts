@@ -130,8 +130,8 @@ function parseArgsFile(filePath: string): string[] {
 
     for (var line of file.split(/\r?\n/)) {
         if (!line.startsWith('#') && line.trim() != '') {
-            core.info('Including: <', line, '>');
-            parsedArgs = parsedArgs.concat(line.split(' '));
+            core.startGroup(`Including: <${line}>`);
+            parsedArgs = parsedArgs.concat(line.trim().split(' '));
         }
     }
 
