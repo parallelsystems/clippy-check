@@ -129,7 +129,7 @@ function parseArgsFile(filePath: string): string[] {
     const file = readFileSync(filePath, 'utf-8');
 
     for (var line of file.split(/\r?\n/)) {
-        if (!line.startsWith('#')) {
+        if (!line.startsWith('#') && line.trim() != '') {
             parsedArgs = parsedArgs.concat(line.split(' '));
         }
     }
