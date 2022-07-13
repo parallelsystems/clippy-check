@@ -2,11 +2,11 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
-import {Cargo, Cross} from '@actions-rs/core';
+import { Cargo, Cross } from '@actions-rs/core';
 import * as input from './input';
-import {CheckRunner} from './check';
+import { CheckRunner } from './check';
 
-import {readFileSync} from 'fs';
+import { readFileSync } from 'fs';
 
 export async function run(actionInput: input.Input): Promise<void> {
     const startedAt = new Date().toISOString();
@@ -56,7 +56,7 @@ export async function run(actionInput: input.Input): Promise<void> {
         throw new Error('Only specify one argument source: `args` or `args-file`');
     }
 
-    if (actionInput.args) {
+    if (actionInput.args.length != 0) {
         args = args.concat(actionInput.args);
     }
 
