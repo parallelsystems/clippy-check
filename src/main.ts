@@ -130,7 +130,7 @@ function parseArgsFile(filePath: string): string[] {
 
     for (var line of file.split(/\r?\n/)) {
         if (!line.startsWith('#') && line.trim() != '') {
-            console.log('Including: <', line, '>');
+            core.info('Including: <', line, '>');
             parsedArgs = parsedArgs.concat(line.split(' '));
         }
     }
