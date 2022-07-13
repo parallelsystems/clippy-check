@@ -13,6 +13,7 @@ export interface Input {
     args: string[],
     useCross: boolean,
     name: string,
+    argsFilePath: string,
 }
 
 export function get(): Input {
@@ -23,12 +24,14 @@ export function get(): Input {
     }
     const useCross = input.getInputBool('use-cross');
     const name = input.getInput('name');
+    const argsFilePath = input.getInput('args-file')
 
     return {
         token: input.getInput('token', {required: true}),
         args: args,
         useCross: useCross,
         toolchain: toolchain || undefined,
-        name
+        name,
+        argsFilePath: argsFilePath
     }
 }

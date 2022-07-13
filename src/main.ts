@@ -6,6 +6,8 @@ import {Cargo, Cross} from '@actions-rs/core';
 import * as input from './input';
 import {CheckRunner} from './check';
 
+import {readFileSync} from 'fs';
+
 export async function run(actionInput: input.Input): Promise<void> {
     const startedAt = new Date().toISOString();
 
@@ -50,7 +52,17 @@ export async function run(actionInput: input.Input): Promise<void> {
     // of arguments and it will mess up the output.
     args.push('--message-format=json');
 
-    args = args.concat(actionInput.args);
+    if (actionInput.args && actionInput.argsFilePath) {
+        throw new Error('Only specify one argument source: `args` or `args-file`');
+    }
+
+    if (actionInput.args) {
+        args = args.concat(actionInput.args);
+    }
+
+    if (actionInput.argsFilePath) {
+        args = args.concat(parseArgsFile(actionInput.argsFilePath));
+    }
 
     let runner = new CheckRunner();
     let clippyExitCode: number = 0;
@@ -101,6 +113,28 @@ async function main(): Promise<void> {
     } catch (error) {
         core.setFailed(error.message);
     }
+}
+
+/**
+ * Parses a newline-delimited file of clippy args
+ * 
+ * @remark sh-style comments are supported (using #)
+ * 
+ * @param filePath - path of file that contains clippy arguments to parse
+ * @returns parsed arguments as an array of strings
+ */
+function parseArgsFile(filePath: string): string[] {
+    let parsedArgs: string[] = [];
+
+    const file = readFileSync(filePath, 'utf-8');
+
+    for (var line of file.split(/\r?\n/)) {
+        if (!line.startsWith('#')) {
+            parsedArgs = parsedArgs.concat(line.split(' '));
+        }
+    }
+
+    return parsedArgs;
 }
 
 main();
