@@ -2,11 +2,11 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
-import { Cargo, Cross } from '@actions-rs/core';
+import {Cargo, Cross} from '@actions-rs/core';
 import * as input from './input';
-import { CheckRunner } from './check';
+import {CheckRunner} from './check';
 
-import { readFileSync } from 'fs';
+import {readFileSync} from 'fs';
 
 export async function run(actionInput: input.Input): Promise<void> {
     const startedAt = new Date().toISOString();
