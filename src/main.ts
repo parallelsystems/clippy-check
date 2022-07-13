@@ -126,14 +126,14 @@ async function main(): Promise<void> {
 function parseArgsFile(filePath: string): string[] {
     let parsedArgs: string[] = [];
 
-    const file = readFileSync(filePath, 'utf-8');
+    // const file = readFileSync(filePath, 'utf-8');
 
-    for (var line of file.split(/\r?\n/)) {
-        if (!line.startsWith('#') && line.trim() != '') {
-            core.startGroup(`Including: <${line}>`);
-            parsedArgs = parsedArgs.concat(line.trim().split(' '));
-        }
-    }
+    // for (var line of file.split(/\r?\n/)) {
+    //     if (!line.startsWith('#') && line.trim() != '') {
+    //         core.startGroup(`Including: <${line}>`);
+    //         parsedArgs = parsedArgs.concat(line.trim().split(' '));
+    //     }
+    // }
 
     return parsedArgs;
 }
