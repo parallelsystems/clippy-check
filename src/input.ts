@@ -2,7 +2,7 @@
  * Parse action input into a some proper thing.
  */
 
-import { input } from '@actions-rs/core';
+import {input} from '@actions-rs/core';
 
 import stringArgv from 'string-argv';
 
@@ -27,7 +27,7 @@ export function get(): Input {
     const argsFilePath = input.getInput('args-file')
 
     return {
-        token: input.getInput('token', { required: true }),
+        token: input.getInput('token', {required: true}),
         args: args,
         useCross: useCross,
         toolchain: toolchain || undefined,

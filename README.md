@@ -66,10 +66,10 @@ jobs:
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args-file: "./clippy_args.sh"
+          args-file: "./clippy_args.txt"
 ```
 
-Example file-based args (`clippy_args.sh`)
+Example file-based args (`clippy_args.txt`)
 ```sh
 # here's a comment
 --locked --all-targets --all-features -- 
@@ -94,7 +94,7 @@ Example file-based args (`clippy_args.sh`)
 For extra details about the `toolchain`, `args` and `use-cross` inputs,
 see [`cargo` Action](https://github.com/actions-rs/cargo#inputs) documentation.
 
-**NOTE**: only specify one argument souce, either `args` or `args-file`.
+**NOTE**: only specify one argument source, either `args` or `args-file`.
 
 **NOTE**: if your workflow contains multiple instances of the `clippy-check` action you will need to give each invocation a unique name, using the `name` property described above.
 Check runs must have a unique name, and this prevents a later check run overriding a previous one within the same workflow.
