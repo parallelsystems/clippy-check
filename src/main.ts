@@ -52,11 +52,11 @@ export async function run(actionInput: input.Input): Promise<void> {
     // of arguments and it will mess up the output.
     args.push('--message-format=json');
 
-    if (actionInput.args && actionInput.argsFilePath) {
+    if (actionInput.args.length != 0 && actionInput.argsFilePath) {
         throw new Error('Only specify one argument source: `args` or `args-file`');
     }
 
-    if (actionInput.args) {
+    if (actionInput.args.length != 0) {
         args = args.concat(actionInput.args);
     }
 
@@ -110,7 +110,7 @@ async function main(): Promise<void> {
         const actionInput = input.get();
 
         await run(actionInput);
-    } catch (error) {
+    } catch (error: any) {
         core.setFailed(error.message);
     }
 }
@@ -129,7 +129,7 @@ function parseArgsFile(filePath: string): string[] {
     const file = readFileSync(filePath, 'utf-8');
 
     for (var line of file.split(/\r?\n/)) {
-        if (!line.startsWith('#')) {
+        if (!line.startsWith('#') && line.trim() != '') {
             parsedArgs = parsedArgs.concat(line.split(' '));
         }
     }
