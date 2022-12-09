@@ -1,30 +1,21 @@
-name: 'rust-clippy-check'
-description: 'Run clippy and annotate the diff with errors and warnings'
-author: 'actions-rs team'
+name: "rust-clippy-check"
+description: "Run clippy and annotate the diff with errors and warnings"
+author: "actions-rs team, modified by @Kristof-Mattei"
 branding:
   icon: play-circle
-  color: black
+  color: orange
 
 inputs:
-  token:
-    description: GitHub token
-    required: true
   toolchain:
     description: Toolchain to use (without the `+` sign, ex. `nightly`)
     required: false
   args:
     description: Arguments for the cargo command
     required: false
-  args-file:
-    description: Arguments defined in external file
-    required: false
   use-cross:
     description: Use cross instead of cargo
-    default: false
-  name:
-    description: Display name of the created GitHub check. Must be unique across several actions-rs/clippy-check invocations.
-    default: clippy
+    required: false
 
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"

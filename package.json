@@ -1,42 +1,70 @@
 {
-    "name": "rust-clippy-check",
-    "version": "1.0.7",
     "private": false,
+    "name": "@actions-rs-plus/core",
+    "version": "1.0.7",
+    "author": "actions-rs-plus",
+    "license": "MIT",
     "description": "Run clippy and annotate the diff with errors and warnings",
     "main": "dist/index.js",
+    "files": [
+        "dist/**/*.js",
+        "dist/**/*.js.map",
+        "dist/**/*.d.ts"
+    ],
     "scripts": {
-        "build": "ncc build src/main.ts --minify",
-        "watch": "ncc build src/main.ts --watch --minify",
-        "test": "jest --passWithNoTests"
+        "build": "ncc build src/main.ts --minify && mkdir -p dist/.matchers && cp matchers/rust.json dist/.matchers/rust.json",
+        "watch": "ncc build src/main.ts --watch",
+        "lint": "eslint src --ext=ts,tsx",
+        "lint:fix": "npm run lint -- --fix",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "refresh": "rm -rf ./dist/* && npm run build",
+        "test": "jest --watchAll",
+        "test:ci": "jest",
+        "deps:ci": "depcruise --output-type err src",
+        "deps:graph": "depcruise --output-type dot src | dot -T svg > dependency-graph.svg",
+        "deps:report": "depcruise --output-type err-html --output-to dependency-report.html src"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/actions-rs/clippy-check.git"
+        "url": "git+https://github.com/actions-rs-plus/clippy-check.git"
     },
     "keywords": [
         "actions",
         "rust",
         "cargo"
     ],
-    "author": "actions-rs",
-    "license": "MIT",
     "bugs": {
-        "url": "https://github.com/actions-rs/clippy-check/issues"
-    },
-    "dependencies": {
-        "@actions-rs/core": "0.1.6",
-        "@actions/core": "^1.10.0",
-        "@actions/github": "^5.1.1",
-        "npm-check-updates": "^16.4.3",
-        "string-argv": "^0.3.1"
+        "url": "https://github.com/actions-rs-plus/core/issues"
     },
     "devDependencies": {
-        "@types/jest": "^29.2.3",
-        "@types/node": "^18.11.9",
-        "@zeit/ncc": "^0.22.3",
-        "jest": "^29.3.1",
-        "jest-circus": "^29.3.1",
-        "ts-jest": "^29.0.3",
+        "@actions-rs-plus/core": "^0.1.8",
+        "@actions/core": "^1.9.0",
+        "@actions/github": "^5.1.1",
+        "@types/jest": "^27.5.1",
+        "@types/node": "^18.11.11",
+        "@typescript-eslint/eslint-plugin": "^5.45.1",
+        "@typescript-eslint/parser": "^5.45.1",
+        "@vercel/ncc": "^0.36.0",
+        "dependency-cruiser": "^12.1.0",
+        "eslint": "^8.29.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-import-resolver-typescript": "^2.7.1",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "husky": "^8.0.2",
+        "jest": "^28.1.0",
+        "jest-junit": "^15.0.0",
+        "lint-staged": "^13.1.0",
+        "prettier": "^2.8.1",
+        "jest-circus": "^28.1.1",
+        "string-argv": "^0.3.1",
+        "ts-jest": "^28.0.5",
         "typescript": "^4.9.3"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "npm run test:lint:fix",
+            "depcruise --validate -- "
+        ]
     }
 }
