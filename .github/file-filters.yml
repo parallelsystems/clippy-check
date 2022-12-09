@@ -3,4 +3,3 @@ code:
   - "package.json"
   - "package-lock.json"
   - ".github/**"
-  - ".codeclimate.yml"
