@@ -1,0 +1,5 @@
+code:
+  - "src/**"
+  - "package.json"
+  - "package-lock.json"
+  - ".github/**"
