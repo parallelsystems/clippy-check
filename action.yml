@@ -12,6 +12,9 @@ inputs:
   args:
     description: Arguments for the cargo command
     required: false
+  args-file:
+    description: Arguments defined in external file
+    required: false
   use-cross:
     description: Use cross instead of cargo
     required: false
